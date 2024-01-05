@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Unit Creation</title>
+    <style><style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            {#display: flex;#}
+            {#justify-content: center;#}
+            {#align-items: center;#}
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .login-form button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .login-form button:hover {
+            background-color: #45a049;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111;
+        }
+
+    </style>
+</head>
+<body>
+<ul>
+    <li><a class="active" href="#home">{{ user_name }}</a></li>
+    <li><a href="{% url 'tenant_reg' %}">Create Tenants</a></li>
+    <li><a href="{% url 'tenant_list' %}">Tenant List</a></li>
+    <li><a href="{% url 'property_reg' %}">Create Properties</a></li>
+    <li><a href="{% url 'property_list' %}">Properties</a></li>
+</ul>
+<div style="height: 90vh;display: flex;align-items: center;justify-content: center">
+<div class="login-container">
+    <h2>Create Unit</h2>
+    <form class="login-form" action="{% url 'unit_create' %}" method="post">{% csrf_token %}
+        <input type="number" name="rent_cost" placeholder="Rent Cost" required>
+        <input type="text" name="features" placeholder="Features" required>
+        <input type="date" name="agreement_end_date" placeholder="Agreement End Date" required>
+        <div style="display: flex;align-items: center;justify-content: space-between;padding:5px 0;">
+            <label for="unit">Unit Type :</label>
+            <select name="unit_type">
+                <option value="1BHK">1BHK</option>
+                <option value="2BHK">2BHK</option>
+                <option value="3BHK">3BHK</option>
+            </select>
+        </div>
+
+        <div style="display: flex;align-items: center;justify-content: space-between;padding:5px 0;">
+
+            <label for="cars">Property :</label>
+            <select name="property">
+                {% for obj in property %}
+                    <option value={{ obj.id }}>{{ obj.property_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="display: flex;align-items: center;justify-content: space-between;padding:5px 0;">
+
+            <label for="cars">Tenant :</label>
+            <select name="tenant">
+                {% for obj in tenants %}
+                    <option value={{ obj.user_id }}>{{ obj.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <b><li{% if message.tags %} class="{{ message.tags }}"{% endif %} >{{ message }}</li></b>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</div>
+</body>
+</html>
+</title>
+</head>
+<body>
+
+</body>
+</html>

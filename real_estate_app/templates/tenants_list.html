@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Tenant List</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            {#display: flex;#}
+            {#justify-content: center;#}
+            {#align-items: center;#}
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        .login-form button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .login-form button:hover {
+            background-color: #45a049;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        div {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111;
+        }
+
+    </style>
+</head>
+<body>
+<ul>
+    <li><a class="active" href="#home">{{ user_name }}</a></li>
+    <li><a href="{% url 'tenant_reg' %}">Create Tenants</a></li>
+    <li><a href="{% url 'property_list' %}">Properties</a></li>
+    <li><a href="{% url 'property_reg' %}">Create Properties</a></li>
+    <li><a href="{% url 'unit_create' %}">Create Unit</a></li>
+</ul>
+<div style="height: 60vh;">
+{% for obj in tenants %}
+    <div class="container">
+        <div style="padding: 10px;border: 1px solid #bebebe;margin:10px 0;border-radius: 5px;box-shadow: 0 0 10px rgba(0 , 0 , 0 , 0.2)">
+            <div style="display: flex;align-items: center;justify-content: space-between;margin-bottom: 10px">
+            <div>
+                <h4>{{ obj.name }}</h4>
+                <p>{{ obj.email }}</p>
+                <p>{{ obj.phone }}</p>
+                <p>{{ obj.address }}</p>
+
+            </div>
+            <div>
+                <img src="{{ host }}{{ obj.file }}" width="300">
+
+            </div>
+        </div>
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-primary btn-block btn-lg" data-toggle="modal"
+                data-target="#{{ obj.user_id }}">
+            View Unit
+        </button>
+        </div>
+
+
+        <!-- The Modal -->
+        <div class="modal" id="{{ obj.user_id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Rental Information</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Rent</th>
+                                <th>Unit Type</th>
+                                <th>Property Name</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for obj1 in obj.unit_data %}
+                                <tr>
+                                    <td>{{ obj1.rent_cost }}</td>
+                                    <td>{{ obj1.unit_type }}</td>
+                                    <td>{{ obj1.property__property_name }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+</body>
+</html>
